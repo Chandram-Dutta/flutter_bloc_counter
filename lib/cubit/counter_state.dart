@@ -1,9 +1,8 @@
 part of 'counter_cubit.dart';
 
 class CounterState {
-  int counterValue;
-
+  int initialCounter;
   CounterState({
-    required this.counterValue,
+    required this.initialCounter,
   });
 }

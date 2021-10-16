@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'cubit/counter_cubit.dart';
+import 'package:flutterbloc/cubit/counter_cubit.dart';
 
 void main() => runApp(const MyApp());
 
@@ -10,53 +9,45 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter BLoC',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter BLoC'),
-        ),
-        body: const Col(),
-      ),
-    );
-  }
-}
-
-class Col extends StatelessWidget {
-  const Col({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CounterCubit(),
-      child: BlocBuilder<CounterCubit, CounterState>(
-        builder: (context, state) {
-          return Column(
-            children: [
-              Text(state.counterValue.toString()),
-              Row(
+      create: (context) => CounterCubit(),
+      child: MaterialApp(
+        title: 'Flutter BLoC',
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Flutter BLoC'),
+          ),
+          body: BlocBuilder<CounterCubit, CounterState>(
+            builder: (context, state) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).increment();
-                    },
-                    tooltip: "Increment",
-                    child: const Icon(Icons.remove),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).decrement();
-                    },
-                    tooltip: "Decrement",
-                    child: const Icon(Icons.add),
+                  Text(state.initialCounter.toString()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FloatingActionButton(
+                        child: const Icon(Icons.add),
+                        tooltip: "Increment",
+                        onPressed: () {
+                          BlocProvider.of<CounterCubit>(context).increment();
+                        },
+                      ),
+                      FloatingActionButton(
+                        child: const Icon(Icons.remove),
+                        tooltip: "Decrement",
+                        onPressed: () {
+                          BlocProvider.of<CounterCubit>(context).decrement();
+                        },
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
